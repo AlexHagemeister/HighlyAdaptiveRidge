@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 scikit-learn = "*"
+jupyter = "*"
+pandas = "*"
+matplotlib = "*"
+altair = "*"
 
 [dev-packages]
 
