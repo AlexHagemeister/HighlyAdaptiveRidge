@@ -1,9 +1,12 @@
-# This is the Python implementation of the HAL algorithm.
+# Different, more verbose HAL implementation. Unsure what the differences are.
+# TODO: Ask Alejandro 
 
 from collections import defaultdict
 from itertools import chain
 from sklearn.linear_model import LassoCV
 import numpy as np
+
+from data_generator import DataGen
 
 def quantize_col(x, k):
     """
