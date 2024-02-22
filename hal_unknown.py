@@ -1,4 +1,4 @@
-# Different, more verbose HAL implementation. Unsure what the differences are.
+# Different, more verbose HAL implementation.
 # TODO: Ask Alejandro 
 
 from collections import defaultdict
@@ -6,7 +6,7 @@ from itertools import chain
 from sklearn.linear_model import LassoCV
 import numpy as np
 
-from data_generator import DataGen
+from data_generator import DataGenerator
 
 def quantize_col(x, k):
     """

@@ -1,8 +1,10 @@
+# Generates simple data for the simple HAL, i.e. the one that requires pre-processing of the data by basis expansion.
+
 import numpy as np
 
 class DataGenerator:
     """
-    This class represents a data generating process (DGP) for generating synthetic data.
+    This class represents a data generating process (DGP) for generating synthetic data for HAL.
 
     Methods:
     - f(X): Computes the target function value for a given input X.
