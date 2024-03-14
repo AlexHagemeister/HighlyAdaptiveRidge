@@ -4,6 +4,11 @@
 
 This project aims to empirically compare the performance of two statistical models: the Highly Adaptive Lasso (HAL) and Highly Adaptive Ridge (HAR) in high-dimensional data analysis. Both models are variants of regularization techniques used in regression and machine learning to prevent overfitting by adding a penalty to the loss function. The focus is on evaluating these models in terms of computational efficiency, prediction accuracy, and the effectiveness of regularization under various conditions.
 
+## Current Status
+
+Preliminary results showing dramatic decrease in compute to train HAR vs HAL while seeming to maintain similar prediction accuracy. 
+Next: building upon the simulation environment for more exhaustive testing and comparison, along with more detailed (and disaggregated) visualizations of key eval metrics.
+
 ## Goals
 
 1. **Empirical Comparison**: Conduct a thorough empirical comparison between HAL and HAR models to assess their performance on high-dimensional datasets.
@@ -29,11 +34,11 @@ The simulation results will be analyzed and visualized to compare the computatio
 
 - `highly_adaptive_lasso.py`: Implementation of the Highly Adaptive Lasso model.
 - `highly_adaptive_ridge.py`: Implementation of the Highly Adaptive Ridge model.
-- `simulation_1.0.py`: Main simulation script that includes data generation, model fitting, evaluation, and result visualization.
+- `data_generators.py`: Functions to generate synthetic datasets for the simulation.
 
 ## Running the Simulation
 
-To run the simulation, ensure you have Python installed along with necessary libraries such as `numpy`, `matplotlib`, and `scikit-learn`. Execute the `simulation_1.0.py` script in your environment to begin the comparison.
+(Building in progress, disregard) To run the simulation, ensure you have Python installed along with necessary libraries such as `numpy`, `matplotlib`, and `scikit-learn`. Execute the `simulation_1.0.py` script in your environment to begin the comparison.
 
 ## Future Work
 

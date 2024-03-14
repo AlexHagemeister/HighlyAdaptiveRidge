@@ -6,7 +6,7 @@ from itertools import chain
 from sklearn.linear_model import LassoCV
 import numpy as np
 
-from data_generator import DataGenerator
+from data_generators import DataGenerator
 
 def quantize_col(x, k):
     """

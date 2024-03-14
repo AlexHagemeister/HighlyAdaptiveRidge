@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_squared_error
 from highly_adaptive_lasso import HAL # Placeholder for actual import
 from highly_adaptive_ridge import HAR # Placeholder for actual import
-from data_generator import DataGenerator # Placeholder for actual import
+from data_generators import DataGenerator # Placeholder for actual import
 from sklearn.datasets import make_regression
 import matplotlib.pyplot as plt
 
