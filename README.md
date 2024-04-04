@@ -51,7 +51,7 @@ Preliminary results showing dramatic decrease in compute to train HAR vs HAL:
 
 Both models seem to maintain similar prediction accuracy:
 
-![](images/mse_tiled.png)
+![](images/mean_mse.png)
 
 Next: building upon the simulation environment for more exhaustive testing and comparison, along with more detailed (and disaggregated) visualizations of key eval metrics.
 
