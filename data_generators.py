@@ -61,6 +61,8 @@ class SmoothDataGenerator:
     - f_1, f_3, f_5: Compute the smooth target function values for dimensions 1, 3, and 5 respectively.
     - generate_data: Generates synthetic data using the DGP based on the specified dimension.
     """
+    # create a pulic static name for the class
+    name = "Smooth"
 
     @staticmethod
     def f_1(X):
@@ -161,6 +163,7 @@ class JumpDataGenerator:
     - f_1, f_3, f_5: Compute the jump target function values for dimensions 1, 3, and 5 respectively.
     - generate_data: Generates synthetic data using the DGP based on the specified dimension.
     """
+    name = "Jump"
 
     @staticmethod
     def f_1(X):
@@ -267,6 +270,7 @@ class SinusoidalDataGenerator:
     - f_1, f_3, f_5: Compute the sinusoidal target function values for dimensions 1, 3, and 5 respectively.
     - generate_data: Generates synthetic data using the DGP based on the specified dimension.
     """
+    name = "Sinusoidal"
 
     @staticmethod
     def f_1(X):

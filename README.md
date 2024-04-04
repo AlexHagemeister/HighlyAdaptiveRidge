@@ -21,8 +21,8 @@ Next: building upon the simulation environment for more exhaustive testing and c
 
 The project utilizes a simulation-based approach to generate synthetic datasets with controllable features such as the number of samples, number of features, and the level of noise. The simulation involves:
 
-- Generating datasets using the `make_regression` function from scikit-learn.
-- Fitting both HAL and HAR models to these datasets.
+- Generating datasets using the data generating processes from the original HAL paper: `data_generators.py`.
+- Fitting both HAL and HAR models to these datasets: `run_trials.py`.
 - Evaluating model performance using cross-validation and calculating MSE on a test set.
 - Repeating the process for various dataset sizes to gather comprehensive performance data.
 
@@ -35,10 +35,25 @@ The simulation results will be analyzed and visualized to compare the computatio
 - `highly_adaptive_lasso.py`: Implementation of the Highly Adaptive Lasso model.
 - `highly_adaptive_ridge.py`: Implementation of the Highly Adaptive Ridge model.
 - `data_generators.py`: Functions to generate synthetic datasets for the simulation.
+- `run_trials.py`: Script to run the simulation trials and produce dataframes for analysis.
+- `testbench_nb.ipynb`: Jupyter notebook for testing and benchmarking the models.
 
 ## Running the Simulation
 
-(Building in progress, disregard) To run the simulation, ensure you have Python installed along with necessary libraries such as `numpy`, `matplotlib`, and `scikit-learn`. Execute the `simulation_1.0.py` script in your environment to begin the comparison.
+**Simulation file still in progress**
+Current work is being done in the `testbench_nb.ipynb` notebook.
+
+## Current Status
+
+Preliminary results showing dramatic decrease in compute to train HAR vs HAL: 
+
+![](images/train_time_tiled.png)
+
+Both models seem to maintain similar prediction accuracy:
+
+![](images/mse_tiled.png)
+
+Next: building upon the simulation environment for more exhaustive testing and comparison, along with more detailed (and disaggregated) visualizations of key eval metrics.
 
 ## Future Work
 
