@@ -1,5 +1,9 @@
+from re import X
+from cycler import K
 from sklearn.linear_model import RidgeCV
 import numpy as np
+
+from kernel_har import KernelHAR
 
 class HAR:
     """
@@ -25,6 +29,8 @@ class HAR:
         Initializes the HAR object.
         """
         self.ridge = RidgeCV(*args, **kwargs)
+        self.name = "HAR"
+        self.best_lambda = None # update with best lambda found through cross-validation
 
     def _basis_products(self, arr, index=0, current=None, result=None):
         # Implementation remains the same as in HAL
@@ -85,6 +91,8 @@ class HAR:
         """
         self.knots = X
         self.ridge.fit(self._bases(X), Y) # Adjusted for Ridge
+        # update best lambda found through cross-validation
+        self.best_lambda = self.ridge.alpha_
 
     def predict(self, X):
         """

@@ -1,6 +1,3 @@
-# Highly Adaptive Lasso (simpler). Unsure about the basis expansion. 
-# Only currently seems to run on data which has already undergone a basis expansion.
-
 from sklearn.linear_model import Lasso, LassoCV, RidgeCV
 import numpy as np
 
@@ -37,6 +34,7 @@ class HAL:
 
         """
         self.lasso = LassoCV(*args, **kwargs)
+        self.name = "HAL"
 
     def _basis_products(self, arr, index=0, current=None, result=None):
         """
