@@ -41,6 +41,7 @@ class KernelHAR:
         # Hopefully faster implementation
         # Compute the minimum matrix once
         min_matrix = np.minimum(X[:, np.newaxis, :], X_prime[np.newaxis, :, :])
+        print("built min matrix")
         # Compute the comparison result
         comparison = (self.knots[:, np.newaxis, np.newaxis, :] <= min_matrix).sum(axis=-1)
         print("built comparison matrix")
