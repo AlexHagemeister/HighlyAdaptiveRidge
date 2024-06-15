@@ -12,6 +12,8 @@ altair = "*"
 ipykernel = "*"
 pyarrow = "*"
 numba = "*"
+numpy = "*"
+scipy = "*"
 
 [dev-packages]
 

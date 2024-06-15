@@ -1,5 +1,3 @@
-from re import X
-from cycler import K
 from sklearn.linear_model import RidgeCV
 import numpy as np
 

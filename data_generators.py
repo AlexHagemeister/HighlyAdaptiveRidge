@@ -1,53 +1,5 @@
 import numpy as np
 
-class DataGenerator:
-    """
-    This class represents a data generating process (DGP) for generating synthetic data for HAL.
-
-    Methods:
-    - f(X): Computes the target function value for a given input X.
-    - gen(n): Generates synthetic data of size n using the DGP.
-
-    """
-
-    @classmethod
-    def f(cls, X):
-        """
-        Computes the target function value for a given input X.
-
-        Parameters:
-        - X: Input data of shape (n, 2), where n is the number of samples.
-
-        Returns:
-        - The computed target function values.
-
-        Author: Alejandro Schuler
-        Edits: renamed class, added documentation
-
-        """
-        return -0.5*X[:,0] + (X[:,1] * X[:,0]**2) / 2.75 + X[:,1]
-
-    @classmethod
-    def generate_data(cls, n):
-        """
-        Generates synthetic data of size n using the data generating process (DGP).
-
-        Parameters:
-        - n: The number of samples to generate.
-
-        Returns:
-        - X: The generated input data of shape (n, 2).
-        - Y: The corresponding target function values of shape (n,).
-
-        """
-        X = np.column_stack((
-            np.random.uniform(-4, 4, n),
-            np.random.binomial(1, 0.5, n),
-        ))
-        Y = cls.f(X) + np.random.normal(0, 1, n)
-        return X, Y
-
-
 # ------------------------------------------------------------------------- # 
 #               "Smooth" data generating process (DGP)                      #
 # ------------------------------------------------------------------------- # 
@@ -58,8 +10,8 @@ class SmoothDataGenerator:
     using smooth regression functions as described in the paper.
 
     Methods:
-    - f_1, f_3, f_5: Compute the smooth target function values for dimensions 1, 3, and 5 respectively.
-    - generate_data: Generates synthetic data using the DGP based on the specified dimension.
+    - generate_data(n, d): Generates synthetic data using the DGP for a specified dimension. 
+    d = 1, 3, or 5 are explicitly defined. all other dimensions use a loop.
     """
     # create a pulic static name for the class
     name = "Smooth"
@@ -108,6 +60,26 @@ class SmoothDataGenerator:
         return (0.1 * x1 - 0.3 * x1 ** 2 + 0.25 * x2 +
                 0.5 * x2 * x3 - 0.5 * x4 + 0.04 * x5 ** 2 - 
                 0.1 * x5)
+    
+    @staticmethod
+    def f_general(X, d):
+        """
+        Computes the smooth target function value for higher dimensions.
+
+        Parameters:
+        - X: Input data of shape (n, d), where n is the number of samples.
+        - d: The dimension of the data.
+
+        Returns:
+        - The computed target function values for the given dimension.
+        """
+        Y = np.zeros(X.shape[0])
+        for i in range(d):
+            if i % 2 == 0:
+                Y += 0.1 * X[:, i] - 0.2 * X[:, i] ** 2
+            else:
+                Y += 0.05 * X[:, i]
+        return Y
 
     @staticmethod
     def generate_data(n, d):
@@ -133,7 +105,8 @@ class SmoothDataGenerator:
         }
 
         # Generate features X for the specified dimension d
-        X = np.column_stack([distributions[j + 1](n) for j in range(d)])
+        # Features created by stacking the distributions
+        X = np.column_stack([distributions[(j % 5) + 1](n) for j in range(d)])
         
         # Apply the appropriate target function based on dimension d
         if d == 1:
@@ -143,7 +116,7 @@ class SmoothDataGenerator:
         elif d == 5:
             Y = SmoothDataGenerator.f_5(X)
         else:
-            raise ValueError("Dimension d must be either 1, 3, or 5.")
+            Y = SmoothDataGenerator.f_general(X, d)
 
         # Add normal noise to the target function values
         Y += np.random.normal(0, 1, n)
@@ -213,6 +186,25 @@ class JumpDataGenerator:
                2*(x1 > 2)*x3 - 3*(x1 > 3) + 1.5*(x2 > -1) -
                 5*(x2 > 1)*x3 + 2*(x2 > 3) + 2*(x4 < 0) -
                 (x5 > 5) - (x4 < 0)*(x1 < 0) + 2*x3)
+    
+    @staticmethod
+    def f_general(X, d):
+        """
+        Computes the jump target function value for higher dimensions.
+
+        Parameters:
+        - X: Input data of shape (n, d), where n is the number of samples.
+        - d: The dimension of the data.
+
+        Returns:
+        - The computed target function values for the given dimension.
+        """
+        # Randomly generate coefficients for each dimension
+        coeffs = np.random.uniform(-5, 5, d)
+        Y = np.zeros(X.shape[0])
+        for i in range(d):
+            Y += coeffs[i] * (X[:, i] > 0)
+        return Y
 
     @staticmethod
     def generate_data(n, d):
@@ -221,7 +213,7 @@ class JumpDataGenerator:
 
         Parameters:
         - n: The number of samples to generate.
-        - d: The dimension of the data to generate (1, 3, or 5).
+        - d: The dimension of the data to generate
 
         Returns:
         - X: The generated input data of shape (n, d).
@@ -236,9 +228,9 @@ class JumpDataGenerator:
             5: lambda size: np.random.gamma(2, 1, size),
         }
 
-        # Generate features X for the specified dimension d
-        X = np.column_stack([distributions[j + 1](n) for j in range(d)])
-        
+        # Generate features X for the specified dimension d 
+        X = np.column_stack([distributions[(j % 5) + 1](n) for j in range(d)])   
+
         # Apply the appropriate target function based on dimension d
         if d == 1:
             Y = SmoothDataGenerator.f_1(X)
@@ -247,7 +239,7 @@ class JumpDataGenerator:
         elif d == 5:
             Y = SmoothDataGenerator.f_5(X)
         else:
-            raise ValueError("Dimension d must be either 1, 3, or 5.")
+            Y = JumpDataGenerator.f_general(X, d)
 
         # Add normal noise to the target function values
         Y += np.random.normal(0, 1, n)
@@ -258,8 +250,6 @@ class JumpDataGenerator:
 # ------------------------------------------------------------------------- # 
 #                                "Sinusoidal" DGP                           #
 # ------------------------------------------------------------------------- # 
-    
-import numpy as np
 
 class SinusoidalDataGenerator:
     """
@@ -319,6 +309,26 @@ class SinusoidalDataGenerator:
                 4.1 * np.where(x2 > 0, np.cos(np.pi * np.abs(x1) / 2), 0) +
                 0.1 * x5 * np.sin(np.pi * x4) + 
                 x3 * np.cos(np.abs(x4 - x5)))
+    
+    @staticmethod
+    def f_general(X, d):
+        """
+        Computes the sinusoidal target function value for higher dimensions.
+
+        Parameters:
+        - X: Input data of shape (n, d), where n is the number of samples.
+        - d: The dimension of the data.
+
+        Returns:
+        - The computed target function values for the given dimension.
+        """
+        # Randomly generate coefficients for each dimension
+        coeffs_sin = np.random.uniform(-2, 2, d)
+        coeffs_cos = np.random.uniform(-2, 2, d)
+        Y = np.zeros(X.shape[0])
+        for i in range(d):
+            Y += coeffs_sin[i] * np.sin(np.pi * np.abs(X[:, i]) / 2) + coeffs_cos[i] * np.cos(np.pi * np.abs(X[:, i]) / 2)
+        return Y
 
     @staticmethod
     def generate_data(n, d):
@@ -327,7 +337,7 @@ class SinusoidalDataGenerator:
 
         Parameters:
         - n: The number of samples to generate.
-        - d: The dimension of the data to generate (1, 3, or 5).
+        - d: The dimension of the data to generate
 
         Returns:
         - X: The generated input data of shape (n, d).
@@ -343,7 +353,7 @@ class SinusoidalDataGenerator:
         }
 
         # Generate features X for the specified dimension d
-        X = np.column_stack([distributions[j + 1](n) for j in range(d)])
+        X = np.column_stack([distributions[(j % 5) + 1](n) for j in range(d)])
         
         # Apply the appropriate target function based on dimension d
         if d == 1:
@@ -353,9 +363,57 @@ class SinusoidalDataGenerator:
         elif d == 5:
             Y = SmoothDataGenerator.f_5(X)
         else:
-            raise ValueError("Dimension d must be either 1, 3, or 5.")
+            Y = SinusoidalDataGenerator.f_general(X, d)
 
         # Add normal noise to the target function values
         Y += np.random.normal(0, 1, n)
 
         return X, Y
+
+class DataGenerator:
+    """
+    This class represents a data generating process (DGP) for generating synthetic data for HAL.
+
+    Methods:
+    - f(X): Computes the target function value for a given input X.
+    - gen(n): Generates synthetic data of size n using the DGP.
+
+    """
+
+    @classmethod
+    def f(cls, X):
+        """
+        Computes the target function value for a given input X.
+
+        Parameters:
+        - X: Input data of shape (n, 2), where n is the number of samples.
+
+        Returns:
+        - The computed target function values.
+
+        Author: Alejandro Schuler
+        Edits: renamed class, added documentation
+
+        """
+        return -0.5*X[:,0] + (X[:,1] * X[:,0]**2) / 2.75 + X[:,1]
+
+    @classmethod
+    def generate_data(cls, n):
+        """
+        Generates synthetic data of size n using the data generating process (DGP).
+
+        Parameters:
+        - n: The number of samples to generate.
+
+        Returns:
+        - X: The generated input data of shape (n, 2).
+        - Y: The corresponding target function values of shape (n,).
+
+        """
+        X = np.column_stack((
+            np.random.uniform(-4, 4, n),
+            np.random.binomial(1, 0.5, n),
+        ))
+        Y = cls.f(X) + np.random.normal(0, 1, n)
+        return X, Y
+
