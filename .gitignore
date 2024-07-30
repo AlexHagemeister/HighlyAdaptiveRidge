@@ -1,6 +1,10 @@
 # My stuff
 env_notes.txt
 *.csv
+csv/blog.csv
+csv/slice.csv
+csv/yearmsd.csv
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
