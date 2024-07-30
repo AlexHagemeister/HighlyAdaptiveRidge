@@ -2,8 +2,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import KFold
-from scipy.linalg import inv
-from scipy.linalg import solve
+# from sklearn.model_selection import HalvingRandomSearchCV
+from scipy.linalg import inv, solve
+# from sklearn.base import BaseEstimator, RegressorMixin
 
 class KernelHAR:
     def __init__(self, *args, **kwargs):

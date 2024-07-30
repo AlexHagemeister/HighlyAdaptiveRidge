@@ -188,7 +188,7 @@ class JumpDataGenerator:
                 (x5 > 5) - (x4 < 0)*(x1 < 0) + 2*x3)
     
     @staticmethod
-    def f_general(X, d):
+    def f_general(X, d): # should add some (low-dim) interactions
         """
         Computes the jump target function value for higher dimensions.
 
@@ -311,7 +311,7 @@ class SinusoidalDataGenerator:
                 x3 * np.cos(np.abs(x4 - x5)))
     
     @staticmethod
-    def f_general(X, d):
+    def f_general(X, d): # also some interactions
         """
         Computes the sinusoidal target function value for higher dimensions.
 
@@ -322,12 +322,28 @@ class SinusoidalDataGenerator:
         Returns:
         - The computed target function values for the given dimension.
         """
-        # Randomly generate coefficients for each dimension
-        coeffs_sin = np.random.uniform(-2, 2, d)
-        coeffs_cos = np.random.uniform(-2, 2, d)
+        # use seed for pseudo-randomness
+        np.random.seed(42)
         Y = np.zeros(X.shape[0])
-        for i in range(d):
-            Y += coeffs_sin[i] * np.sin(np.pi * np.abs(X[:, i]) / 2) + coeffs_cos[i] * np.cos(np.pi * np.abs(X[:, i]) / 2)
+        for term in range(d):
+            # draw a random subset of 1:d, more likely to be low-dimensional
+            subset = np.random.choice(
+                np.arange(d), 
+                max([1 + np.random.poisson(1), d]),
+                replace=False
+            )
+            term = np.prod(X[:, subset], axis=1)
+            
+            coef_sin = np.random.uniform(-2, 2)
+            coef_cos = np.random.uniform(-2, 2)
+            # Y += fun(term, coef_sin=..., coef_cos=...)
+            Y += coef_sin * np.sin(np.pi * np.abs(term) / 2) + coef_cos * np.cos(np.pi * np.abs(term) / 2)
+
+        # # Randomly generate coefficients for each dimension
+        # coeffs_sin = np.random.uniform(-2, 2, d)
+        # coeffs_cos = np.random.uniform(-2, 2, d)
+        # for i in range(d):
+        #     Y += coeffs_sin[i] * np.sin(np.pi * np.abs(X[:, i]) / 2) + coeffs_cos[i] * np.cos(np.pi * np.abs(X[:, i]) / 2)
         return Y
 
     @staticmethod
