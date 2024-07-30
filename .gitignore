@@ -1,6 +1,6 @@
 # My stuff
 env_notes.txt
-
+*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
