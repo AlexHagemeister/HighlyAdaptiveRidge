@@ -6,7 +6,9 @@ csv/slice.csv
 csv/yearmsd.csv
 csv/.DS_Store
 *.pickle
-df_pickles/*.pickle
+df_pickles/*.pickle\
+keyfile
+keyfile.pub
 
 # Editors
 .vscode/
