@@ -1,14 +1,9 @@
-# My stuff
-env_notes.txt
-*.csv
-csv/blog.csv
-csv/slice.csv
-csv/yearmsd.csv
-csv/.DS_Store
+# Project
+_archive/
+results/*
+!results/.gitkeep
+data/*.csv
 *.pickle
-df_pickles/*.pickle\
-keyfile
-keyfile.pub
 
 # Editors
 .vscode/
@@ -133,5 +128,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 .dmypy.json
-dmypy.json*.pickle
-csv/*.csv
+dmypy.json
