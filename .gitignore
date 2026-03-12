@@ -1,5 +1,6 @@
 # Project
 _archive/
+.refactor/
 results/*
 !results/.gitkeep
 data/*.csv

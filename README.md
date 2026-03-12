@@ -1,60 +1,66 @@
-# Highly Adaptive Models Comparison Project
+# Highly Adaptive Ridge (HAR)
 
-## Overview
+Companion code for the paper:
 
-This project aims to empirically compare the performance of two statistical models: the Highly Adaptive Lasso (HAL) and Highly Adaptive Ridge (HAR) in high-dimensional data analysis. Both models are variants of regularization techniques used in regression and machine learning to prevent overfitting by adding a penalty to the loss function. The focus is on evaluating these models in terms of computational efficiency, prediction accuracy, and the effectiveness of regularization under various conditions.
+> **Highly Adaptive Ridge**
+> Alejandro Schuler, Alexander Hagemeister, Mark van der Laan
+> Division of Biostatistics & EECS, UC Berkeley (2024)
+> [arXiv link forthcoming]
 
-## Current Status
+## What is HAR?
 
-Preliminary results showing dramatic decrease in compute to train HAR vs HAL while seeming to maintain similar prediction accuracy. 
-Next: building upon the simulation environment for more exhaustive testing and comparison, along with more detailed (and disaggregated) visualizations of key eval metrics.
+HAR is a nonparametric regression algorithm that performs kernel ridge regression with a data-adaptive kernel derived from a saturated zero-order spline basis expansion. The kernel computes inner products in a high-dimensional basis space without ever instantiating the basis matrix, making the method scalable to high-dimensional covariates.
 
-## Goals
+**Key theoretical result:** HAR achieves an *n*<sup>−1/3</sup>(log *n*)<sup>2(*p*−1)/3</sup> L2 convergence rate in the class of càdlàg functions of bounded sectional variation — a dimension-free rate (up to log factors) in a rich nonparametric function class.
 
-1. **Empirical Comparison**: Conduct a thorough empirical comparison between HAL and HAR models to assess their performance on high-dimensional datasets.
-2. **Computation Time**: Evaluate and compare the computation times required by each model to fit the data, providing insights into their efficiency.
-3. **Prediction Accuracy**: Use metrics such as Mean Squared Error (MSE) to compare the prediction accuracy of the models across different dataset sizes and conditions.
-4. **Regularization Effectiveness**: Examine how cross-validation techniques control the regularization parameters in both models, focusing on the L1 norm control in HAR despite its explicit use of L2 regularization.
-5. **Scalability**: Assess how each model scales with increasing data dimensions, offering insights into their applicability to real-world, high-dimensional datasets.
+## Quick Start
 
-## Methodology
+```bash
+git clone https://github.com/AlexHagemeister/HighlyAdaptiveRidge.git
+cd Highly_Adaptive_Ridge
+pip install -r requirements.txt
 
-The project utilizes a simulation-based approach to generate synthetic datasets with controllable features such as the number of samples, number of features, and the level of noise. The simulation involves:
+# Reproduce simulation experiments (convergence rate + timing)
+python experiments/run_simulations.py
 
-- Generating datasets using the data generating processes from the original HAL paper: `data_generators.py`.
-- Fitting both HAL and HAR models to these datasets: `run_trials.py`.
-- Evaluating model performance using cross-validation and calculating MSE on a test set.
-- Repeating the process for various dataset sizes to gather comprehensive performance data.
+# Reproduce UCI benchmark results
+python experiments/run_benchmarks.py
 
-## Results Analysis
+# Generate figures
+python experiments/plot_results.py
+```
 
-The simulation results will be analyzed and visualized to compare the computation time and MSE of HAL and HAR models. This analysis aims to provide a clear understanding of each model's strengths and limitations, particularly regarding their efficiency and accuracy in handling high-dimensional data.
+## Repository Structure
 
-## Project Structure
+```
+har/                      # Core implementations
+├── kernel_har.py         # Kernelized HAR (paper's main algorithm)
+├── hal.py                # Highly Adaptive Lasso (baseline)
+└── data_generators.py    # Synthetic DGPs (Smooth, Jump, Sinusoidal)
 
-- `highly_adaptive_lasso.py`: Implementation of the Highly Adaptive Lasso model.
-- `highly_adaptive_ridge.py`: Implementation of the Highly Adaptive Ridge model.
-- `data_generators.py`: Functions to generate synthetic datasets for the simulation.
-- `run_trials.py`: Script to run the simulation trials and produce dataframes for analysis.
-- `testbench_nb.ipynb`: Jupyter notebook for testing and benchmarking the models.
+experiments/              # Reproducibility scripts
+├── run_simulations.py    # Convergence + timing on synthetic data
+├── run_benchmarks.py     # UCI real-data evaluation
+└── plot_results.py       # Figure generation
 
-## Running the Simulation
+data/                     # UCI benchmark datasets
+results/figures/          # Generated plots
+```
 
-**Simulation file still in progress**
-Current work is being done in the `testbench_nb.ipynb` notebook.
+## How the Kernel Works
 
-## Current Status
+The HAR kernel between points *x* and *x'* given training data {*X*<sub>1</sub>, ..., *X*<sub>*n*</sub>} is:
 
-Preliminary results showing dramatic decrease in compute to train HAR vs HAL: 
+*K*(*x*, *x'*) = Σ<sub>*i*</sub> 2<sup>|*s*<sub>*i*</sub>(*x*, *x'*)|</sup>
 
-![](images/train_time_tiled.png)
+where *s*<sub>*i*</sub>(*x*, *x'*) = {*j* : *X*<sub>*i*,*j*</sub> ≤ min(*x*<sub>*j*</sub>, *x'*<sub>*j*</sub>)}. This avoids instantiating the *n*·2<sup>*p*</sup> basis functions and reduces training to an *O*(*n*<sup>3</sup>) kernel ridge regression.
 
-Both models seem to maintain similar prediction accuracy:
+## Citation
 
-![](images/mean_mse.png)
-
-Next: building upon the simulation environment for more exhaustive testing and comparison, along with more detailed (and disaggregated) visualizations of key eval metrics.
-
-## Future Work
-
-As the project progresses, additional models and comparison metrics may be introduced to expand the scope of the analysis. Further optimizations and enhancements to the simulation process will also be considered to improve the accuracy and relevance of the findings.
+```bibtex
+@article{schuler2024har,
+  title={Highly Adaptive Ridge},
+  author={Schuler, Alejandro and Hagemeister, Alexander and van der Laan, Mark},
+  year={2024}
+}
+```
