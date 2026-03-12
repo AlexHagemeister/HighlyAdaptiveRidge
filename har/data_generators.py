@@ -97,8 +97,10 @@ class JumpDataGenerator:
                 (x5 > 5) - (x4 < 0) * (x1 < 0) + 2 * x3)
 
     @staticmethod
-    def f_general(X, d):
-        coeffs = np.random.uniform(-5, 5, d)
+    def f_general(X, d, rng=None):
+        if rng is None:
+            rng = np.random.default_rng(42)
+        coeffs = rng.uniform(-5, 5, d)
         Y = np.zeros(X.shape[0])
         for i in range(d):
             Y += coeffs[i] * (X[:, i] > 0)
@@ -112,7 +114,7 @@ class JumpDataGenerator:
         f = {1: JumpDataGenerator.f_1,
              3: JumpDataGenerator.f_3,
              5: JumpDataGenerator.f_5}.get(d)
-        Y = f(X) if f else JumpDataGenerator.f_general(X, d)
+        Y = f(X) if f else JumpDataGenerator.f_general(X, d, rng=rng)
         Y += rng.standard_normal(n)
         return X, Y
 
@@ -144,18 +146,17 @@ class SinusoidalDataGenerator:
                 x3 * np.cos(np.abs(x4 - x5)))
 
     @staticmethod
-    def f_general(X, d):
-        np.random.seed(42)
+    def f_general(X, d, rng=None):
+        if rng is None:
+            rng = np.random.default_rng(42)
+        p = X.shape[1]
         Y = np.zeros(X.shape[0])
         for _ in range(d):
-            subset = np.random.choice(
-                np.arange(d),
-                max([1 + np.random.poisson(1), d]),
-                replace=False
-            )
+            subset_size = min(1 + rng.poisson(1), p)
+            subset = rng.choice(p, subset_size, replace=False)
             term = np.prod(X[:, subset], axis=1)
-            coef_sin = np.random.uniform(-2, 2)
-            coef_cos = np.random.uniform(-2, 2)
+            coef_sin = rng.uniform(-2, 2)
+            coef_cos = rng.uniform(-2, 2)
             Y += coef_sin * np.sin(np.pi * np.abs(term) / 2) + coef_cos * np.cos(np.pi * np.abs(term) / 2)
         return Y
 
@@ -167,6 +168,6 @@ class SinusoidalDataGenerator:
         f = {1: SinusoidalDataGenerator.f_1,
              3: SinusoidalDataGenerator.f_3,
              5: SinusoidalDataGenerator.f_5}.get(d)
-        Y = f(X) if f else SinusoidalDataGenerator.f_general(X, d)
+        Y = f(X) if f else SinusoidalDataGenerator.f_general(X, d, rng=rng)
         Y += rng.standard_normal(n)
         return X, Y

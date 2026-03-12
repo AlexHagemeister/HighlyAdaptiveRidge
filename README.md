@@ -17,7 +17,7 @@ HAR is a nonparametric regression algorithm that performs kernel ridge regressio
 
 ```bash
 git clone https://github.com/AlexHagemeister/HighlyAdaptiveRidge.git
-cd Highly_Adaptive_Ridge
+cd HighlyAdaptiveRidge
 pip install -r requirements.txt
 
 # Reproduce simulation experiments (convergence rate + timing)

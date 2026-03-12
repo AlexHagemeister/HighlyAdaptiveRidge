@@ -25,6 +25,10 @@ def plot_convergence(results):
     dgps = sorted(set(r["dgp"] for r in results))
     dims = sorted(set(r["d"] for r in results))
 
+    if not dgps or not dims:
+        print("  No DGP/dimension data found, skipping convergence plot.")
+        return
+
     fig, axes = plt.subplots(len(dgps), len(dims), figsize=(4 * len(dims), 3.5 * len(dgps)),
                              squeeze=False, sharex=True)
 
@@ -40,6 +44,10 @@ def plot_convergence(results):
             for n in ns:
                 mses = [r["mse"] for r in subset if r["n"] == n]
                 mean_mses.append(np.mean(mses))
+
+            if not mean_mses:
+                ax.set_title(f"{dgp}, d={d}")
+                continue
 
             ax.loglog(ns, mean_mses, "o-", label="KernelHAR", markersize=4)
 
@@ -69,6 +77,10 @@ def plot_timing(results):
 
     dgps = sorted(set(r["dgp"] for r in results))
     dims = sorted(set(r["d"] for r in results))
+
+    if not dims:
+        print("  No dimension data found, skipping timing plot.")
+        return
 
     fig, axes = plt.subplots(1, len(dims), figsize=(4 * len(dims), 3.5), squeeze=False)
 
