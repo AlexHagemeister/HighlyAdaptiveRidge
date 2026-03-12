@@ -53,7 +53,7 @@ Move the following to `_archive/` (use `git mv` where possible):
 - [x] `git log --all --full-history -- keyfile` returns nothing
 - [x] `git status` shows only the structural changes, no secrets
 - [x] Repo root is clean: README.md, har/, experiments/, data/, results/, _archive/, .refactor/, .gitignore
-- [ ] Commit with message like `refactor(phase-1): triage, secure, restructure`
+- [x] Commit with message like `refactor(phase-1): triage, secure, restructure`
 
 ## Notes
 - Don't refactor any code yet. Just move files. Phase 2 handles the code.

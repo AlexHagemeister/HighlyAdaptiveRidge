@@ -49,10 +49,10 @@ Highly_Adaptive_Ridge/
 
 Each phase has a summary here and a detailed work document linked below. Work through phases in order. After completing a phase, review downstream phase docs and adjust if needed before proceeding.
 
-- [ ] **Phase 1: Triage & secure** — Remove secrets, archive dead weight, establish directory structure.
+- [x] **Phase 1: Triage & secure** — Remove secrets, archive dead weight, establish directory structure.
   → [.refactor/phase-1-triage.md](.refactor/phase-1-triage.md)
 
-- [ ] **Phase 2: Clean implementations** — Consolidate HAR, HAL, and DGP code into `har/` with consistent interfaces.
+- [x] **Phase 2: Clean implementations** — Consolidate HAR, HAL, and DGP code into `har/` with consistent interfaces.
   → [.refactor/phase-2-implementations.md](.refactor/phase-2-implementations.md)
 
 - [ ] **Phase 3: Experiments & reproducibility** — Build `experiments/` scripts that produce the paper's simulation and benchmark results.

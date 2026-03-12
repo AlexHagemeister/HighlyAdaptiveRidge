@@ -39,8 +39,15 @@ Three files in `har/`:
 - No new dependencies beyond what's already used (numpy, sklearn, scipy).
 
 ## Verify
-- [ ] `har/` contains exactly: `__init__.py`, `kernel_har.py`, `hal.py`, `data_generators.py`
-- [ ] Each module imports cleanly: `from har.kernel_har import KernelHAR`
-- [ ] Quick smoke test: generate data, fit KernelHAR, predict, no crashes
-- [ ] No print statements in library code
-- [ ] Root-level copies of old files are deleted (they're in `_archive/` from Phase 1)
+- [x] `har/` contains exactly: `__init__.py`, `kernel_har.py`, `hal.py`, `data_generators.py`
+- [x] Each module imports cleanly: `from har.kernel_har import KernelHAR`
+- [x] Quick smoke test: generate data, fit KernelHAR, predict, no crashes
+- [x] No print statements in library code
+- [x] Root-level copies of old files are deleted (they're in `_archive/`)
+
+## Deviations
+- Bug fix in `data_generators.py`: `JumpDataGenerator.generate_data` and `SinusoidalDataGenerator.generate_data` both called `SmoothDataGenerator.f_1/f_3/f_5` instead of their own class methods. Fixed to call the correct class.
+- `highly_adaptive_ridge.py` (explicit-basis HAR, not kernel) was archived — it's superseded by `kernel_har.py`.
+- `run_trials.py` archived — will be replaced by `experiments/` scripts in Phase 3.
+- Added `seed` parameter to all `generate_data` methods using `np.random.default_rng` for reproducibility.
+- Set up `.venv` with uv (numpy, scikit-learn, scipy).
