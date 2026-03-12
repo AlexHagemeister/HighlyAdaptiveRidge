@@ -3,7 +3,7 @@ _archive/
 .refactor/
 results/*
 !results/.gitkeep
-data/*.csv
+# data/*.csv  # tracked for reproducibility
 *.pickle
 
 # Editors
