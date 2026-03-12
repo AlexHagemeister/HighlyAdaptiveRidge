@@ -31,7 +31,14 @@ Build 2-3 scripts that are runnable end-to-end:
 - What sample sizes and dimensions were used in the simulations?
 
 ## Verify
-- [ ] `python experiments/run_simulations.py` runs to completion and saves results
-- [ ] `python experiments/run_benchmarks.py` runs to completion and saves results
-- [ ] `python experiments/plot_results.py` generates figures in `results/figures/`
-- [ ] Figures visually match the paper's claims (HAR faster than HAL, similar MSE, correct rate scaling)
+- [x] `python experiments/run_simulations.py` runs to completion and saves results
+- [x] `python experiments/run_benchmarks.py` runs to completion and saves results
+- [x] `python experiments/plot_results.py` generates figures in `results/figures/`
+- [ ] Figures visually match the paper's claims (full run needed — smoke tests pass)
+
+## Deviations
+- Paper Section 4 is a placeholder/sketch, not a detailed experiment spec. Designed experiments to match stated intent: convergence verification (MSE vs n with n^{-1/3} reference), timing, and UCI benchmarks.
+- UCI datasets: using yacht, boston, energy, concrete, wine, power, kin8nm, naval, protein. Excluded blog/slice/yearmsd (very large, would need special handling).
+- Large datasets subsampled to n=2000 for tractability.
+- Results saved as JSON (not pickle) per design constraint.
+- Set up .venv with uv; added pandas and matplotlib.

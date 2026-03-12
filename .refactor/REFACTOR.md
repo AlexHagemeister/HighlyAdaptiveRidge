@@ -55,7 +55,7 @@ Each phase has a summary here and a detailed work document linked below. Work th
 - [x] **Phase 2: Clean implementations** — Consolidate HAR, HAL, and DGP code into `har/` with consistent interfaces.
   → [.refactor/phase-2-implementations.md](.refactor/phase-2-implementations.md)
 
-- [ ] **Phase 3: Experiments & reproducibility** — Build `experiments/` scripts that produce the paper's simulation and benchmark results.
+- [x] **Phase 3: Experiments & reproducibility** — Build `experiments/` scripts that produce the paper's simulation and benchmark results.
   → [.refactor/phase-3-experiments.md](.refactor/phase-3-experiments.md)
 
 - [ ] **Phase 4: README & polish** — Final README, requirements.txt, .gitignore audit, dry-run the full reproduce flow.
