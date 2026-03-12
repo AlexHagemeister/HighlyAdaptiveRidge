@@ -19,7 +19,8 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, PROJECT_ROOT)
 from har.kernel_har import KernelHAR
 from har.data_generators import SmoothDataGenerator, JumpDataGenerator, SinusoidalDataGenerator
 
@@ -37,7 +38,7 @@ DGPS = {
     "Sinusoidal": SinusoidalDataGenerator,
 }
 
-RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
+RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
 
 
 def run_simulations():

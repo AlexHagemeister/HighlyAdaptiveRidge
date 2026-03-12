@@ -11,9 +11,10 @@ import os
 import json
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, PROJECT_ROOT)
 
-RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
+RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
 
 

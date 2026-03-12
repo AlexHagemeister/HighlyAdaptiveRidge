@@ -19,7 +19,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, PROJECT_ROOT)
 from har.kernel_har import KernelHAR
 
 # -- Configuration --
@@ -28,8 +29,8 @@ TEST_FRACTION = 0.2
 MAX_N = 2000  # subsample large datasets
 SEED = 42
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
-RESULTS_DIR = os.path.join(os.path.dirname(__file__), "..", "results")
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
 
 # Datasets to run (all CSVs in data/, last column = target)
 DATASETS = [
