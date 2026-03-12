@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import numpy as np
+from numpy.typing import NDArray
 from sklearn.linear_model import LassoCV
 
 
@@ -14,12 +17,18 @@ class HAL:
         Passed to sklearn.linear_model.LassoCV.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         self.lasso = LassoCV(**kwargs)
-        self.knots = None
+        self.knots: NDArray[np.floating] | None = None
         self.name = "HAL"
 
-    def _basis_products(self, arr, index=0, current=None, result=None):
+    def _basis_products(
+        self,
+        arr: NDArray[np.bool_],
+        index: int = 0,
+        current: NDArray[np.bool_] | None = None,
+        result: list[NDArray[np.bool_]] | None = None,
+    ) -> list[NDArray[np.bool_]]:
         """Recursively enumerate all tensor products of one-way indicator bases."""
         if result is None:
             result = []
@@ -34,7 +43,7 @@ class HAL:
 
         return result
 
-    def _bases(self, X):
+    def _bases(self, X: NDArray[np.floating]) -> NDArray[np.floating]:
         """Compute the full basis matrix H(X) using stored knots."""
         one_way_bases = np.stack([
             np.less.outer(self.knots[:, j], X[:, j])
@@ -43,7 +52,7 @@ class HAL:
         bases = self._basis_products(one_way_bases)
         return np.concatenate(bases[:-1]).T
 
-    def fit(self, X, Y):
+    def fit(self, X: NDArray[np.floating], Y: NDArray[np.floating]) -> None:
         """Fit HAL to training data.
 
         Parameters
@@ -54,7 +63,7 @@ class HAL:
         self.knots = X
         self.lasso.fit(self._bases(X), Y)
 
-    def predict(self, X):
+    def predict(self, X: NDArray[np.floating]) -> NDArray[np.floating]:
         """Predict targets for new data.
 
         Parameters

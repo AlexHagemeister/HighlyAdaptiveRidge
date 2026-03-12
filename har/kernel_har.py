@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import numpy as np
+from numpy.typing import NDArray
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
 from scipy.linalg import solve
@@ -22,17 +25,19 @@ class KernelHAR:
         Number of CV folds (default 5).
     """
 
-    def __init__(self, lambdas=None, num_folds=5):
+    def __init__(self, lambdas: list[float] | None = None, num_folds: int = 5) -> None:
         self.lambdas = lambdas or [0.01, 0.1, 1.0, 10.0, 100.0, 1000.0]
         self.num_folds = num_folds
-        self.knots = None
-        self.kernel_matrix = None
-        self.alpha = None
-        self.best_lambda = None
-        self.cv_mses = None
+        self.knots: NDArray[np.floating] | None = None
+        self.kernel_matrix: NDArray[np.floating] | None = None
+        self.alpha: NDArray[np.floating] | None = None
+        self.best_lambda: float | None = None
+        self.cv_mses: NDArray[np.floating] | None = None
         self.name = "KernelHAR"
 
-    def _compute_kernel_matrix(self, X, X_prime):
+    def _compute_kernel_matrix(
+        self, X: NDArray[np.floating], X_prime: NDArray[np.floating]
+    ) -> NDArray[np.floating]:
         """Compute K(X, X_prime) using the HAR kernel.
 
         K[i, j] = sum_k 2^|{d : knots[k,d] <= min(X[i,d], X_prime[j,d])}|
@@ -43,7 +48,7 @@ class KernelHAR:
         comparison = (self.knots[:, np.newaxis, np.newaxis, :] <= min_matrix).sum(axis=-1)
         return np.sum(2 ** comparison, axis=0)
 
-    def fit(self, X, Y):
+    def fit(self, X: NDArray[np.floating], Y: NDArray[np.floating]) -> None:
         """Fit the model with CV-selected regularization.
 
         Parameters
@@ -82,7 +87,7 @@ class KernelHAR:
         K_reg = self.kernel_matrix + self.best_lambda * np.eye(self.kernel_matrix.shape[0])
         self.alpha = solve(K_reg, Y)
 
-    def predict(self, X):
+    def predict(self, X: NDArray[np.floating]) -> NDArray[np.floating]:
         """Predict targets for new data.
 
         Parameters

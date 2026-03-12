@@ -6,13 +6,12 @@ Usage:
     python experiments/plot_results.py
 """
 
-import sys
 import os
 import json
 import numpy as np
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, PROJECT_ROOT)
+
 
 RESULTS_DIR = os.path.join(PROJECT_ROOT, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")

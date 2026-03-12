@@ -11,16 +11,14 @@ Usage:
     python experiments/run_simulations.py
 """
 
-import sys
 import os
 import time
 import json
 import numpy as np
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, PROJECT_ROOT)
+
 from har.kernel_har import KernelHAR
 from har.data_generators import SmoothDataGenerator, JumpDataGenerator, SinusoidalDataGenerator
 

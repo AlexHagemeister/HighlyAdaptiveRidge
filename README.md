@@ -5,7 +5,7 @@ Companion code for the paper:
 > **Highly Adaptive Ridge**
 > Alejandro Schuler, Alexander Hagemeister, Mark van der Laan
 > Division of Biostatistics & EECS, UC Berkeley (2024)
-> [arXiv link forthcoming]
+> [arXiv:2410.02680](https://arxiv.org/abs/2410.02680)
 
 ## What is HAR?
 
@@ -18,7 +18,7 @@ HAR is a nonparametric regression algorithm that performs kernel ridge regressio
 ```bash
 git clone https://github.com/AlexHagemeister/HighlyAdaptiveRidge.git
 cd HighlyAdaptiveRidge
-pip install -r requirements.txt
+pip install -e .
 
 # Reproduce simulation experiments (convergence rate + timing)
 python experiments/run_simulations.py
@@ -28,6 +28,13 @@ python experiments/run_benchmarks.py
 
 # Generate figures
 python experiments/plot_results.py
+```
+
+## Running Tests
+
+```bash
+pip install -e ".[dev]"
+pytest
 ```
 
 ## Repository Structure
@@ -43,8 +50,10 @@ experiments/              # Reproducibility scripts
 ├── run_benchmarks.py     # UCI real-data evaluation
 └── plot_results.py       # Figure generation
 
+tests/                    # Test suite
 data/                     # UCI benchmark datasets
 results/figures/          # Generated plots
+docs/                     # Paper and supplementary material
 ```
 
 ## How the Kernel Works
@@ -54,6 +63,10 @@ The HAR kernel between points *x* and *x'* given training data {*X*<sub>1</sub>,
 *K*(*x*, *x'*) = Σ<sub>*i*</sub> 2<sup>|*s*<sub>*i*</sub>(*x*, *x'*)|</sup>
 
 where *s*<sub>*i*</sub>(*x*, *x'*) = {*j* : *X*<sub>*i*,*j*</sub> ≤ min(*x*<sub>*j*</sub>, *x'*<sub>*j*</sub>)}. This avoids instantiating the *n*·2<sup>*p*</sup> basis functions and reduces training to an *O*(*n*<sup>3</sup>) kernel ridge regression.
+
+## Paper
+
+The full paper is available at [docs/HAR_Paper.md](docs/HAR_Paper.md).
 
 ## Citation
 
