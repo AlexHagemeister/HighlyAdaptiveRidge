@@ -25,7 +25,7 @@ from har.kernel_har import KernelHAR
 # -- Configuration --
 NUM_SPLITS = 5
 TEST_FRACTION = 0.2
-MAX_N = 2000  # subsample large datasets
+MAX_N = 1000  # subsample large datasets
 SEED = 42
 
 DATA_DIR = os.path.join(PROJECT_ROOT, "data")

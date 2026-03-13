@@ -3,6 +3,8 @@ _archive/
 .refactor/
 results/*
 !results/.gitkeep
+!results/figures/
+!results/figures/*.png
 # data/*.csv  # tracked for reproducibility
 *.pickle
 
